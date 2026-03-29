@@ -49,5 +49,5 @@ def analyze():
 
 
 if __name__ == '__main__':
-    print("Starting SANCTUM Backend Server on port 5000...")
+    print("Starting PLANWISE Backend Server on port 5000...")
     app.run(port=5000, debug=True)
