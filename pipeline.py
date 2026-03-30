@@ -128,7 +128,7 @@ def run_pipeline(
     write_json(report, output_path)
 
     if render:
-        render_3d(rooms)
+        render_3d(rooms, auto_open=False)
 
     return report
 

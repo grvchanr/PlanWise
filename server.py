@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify, Response
+import os
+from flask import Flask, request, jsonify, Response, send_from_directory
 from flask_cors import CORS
 from pipeline import run_pipeline, generate_phases_stream
 from vision_parser import parse_floor_plan
@@ -10,8 +11,21 @@ try:
 except ImportError:
     pass
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend')
 CORS(app)
+
+# Serve the main dashboard
+@app.route('/')
+def home():
+    return send_from_directory(app.static_folder, 'index.html')
+
+# Serve other static assets (js, css)
+@app.route('/<path:path>')
+def serve_static(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/analyze', methods=['POST'])
